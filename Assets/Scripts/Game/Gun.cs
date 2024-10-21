@@ -201,9 +201,26 @@ public class Gun : MonoBehaviour
          * Implement both single shot and shotgun (swap by pressing <SPACE> by default)
          */
         
+        var position = director.position;
+        var direction = director.rotation;
+        
+        print(position);
+        print(direction);
+
+        if (shotgun)
+        {
+            print("Shotgun");
+            
+            //AdjustFireRate(shotgunBullets);
+            var spread = (int)Math.Round(shotgunSpread);
+            
+            AdjustSpreadSize(spread);
+            
+            SpawnBullet(position, direction);
+        }
         SpawnBullet(
-            new Vector3{ x = 0.0f, y = 0.0f, z = 0.0f }, 
-            Quaternion.Euler(0.0f, 0.0f, 0.0f)
+            position,
+            direction
         );
     }
 
