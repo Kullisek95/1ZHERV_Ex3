@@ -5,12 +5,17 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
+using Random = Unity.Mathematics.Random;
 
 /// <summary>
 /// Main Gun behavior script.
 /// </summary>
 public class Gun : MonoBehaviour
 {
+    
+    
+    
+    
     /// <summary>
     /// Prefab used for the bullets.
     /// </summary>
@@ -204,19 +209,44 @@ public class Gun : MonoBehaviour
         var position = director.position;
         var direction = director.rotation;
         
+        
         print(position);
         print(direction);
+
+        var random = new Random();
 
         if (shotgun)
         {
             print("Shotgun");
             
-            //AdjustFireRate(shotgunBullets);
-            var spread = (int)Math.Round(shotgunSpread);
+            float angleModified = shotgunSpread / 2;
             
-            AdjustSpreadSize(spread);
+            for (int iterator = 0; iterator < shotgunBullets; iterator++)
+            {
+                SpawnBullet(
+                    position, 
+                    Quaternion.Euler(director.eulerAngles + new Vector3(0.0f, 0.0f, angleModified))
+                );
+                
+                angleModified -= shotgunSpread / shotgunBullets;
+
+                // Originally wanted random spread, had to go with equal spread in the end, as Random was not working
+                
+                //var range = (double) shotgunSpread/2 - (double) (-shotgunSpread/2);
+                //var sample = random.NextDouble();
+                //var scaled = sample * range;
+                //var f = (float) scaled;
+
+                //angleModified = f;
+                
+                //print(angleModified);
+                
+                
+
+            }
             
-            SpawnBullet(position, direction);
+            
+            
         }
         SpawnBullet(
             position,
